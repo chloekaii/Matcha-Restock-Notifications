@@ -93,14 +93,10 @@ def scrape_products():
 # Email configuration
 # -----------------------------
 
-# Load config
-config_file = Path("config.json")
-with open(config_file, "r") as f:
-    config = json.load(f)
-
-EMAIL_ADDRESS = config["email_address"]
-EMAIL_PASSWORD = config["email_password"]
-TO_EMAIL = config["to_email"]
+# Load config from environment variables
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+TO_EMAIL = os.getenv("TO_EMAIL")
 
 
 def send_email(subject, body):
@@ -141,7 +137,7 @@ def check_stock_changes():
         if status == "In stock":
             items_stocked = True
         old_status = old_data.get(product)
-        if old_status != status:
+        if old_status != status and status == "In stock":
             changes.append(f"{product}\n{old_status or 'Unknown'} → {status}\n")
 
     # Send email if any changes
