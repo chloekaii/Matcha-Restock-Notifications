@@ -2,7 +2,7 @@ name: Matcha Stock Checker
 
 on:
   schedule:
-    - cron: "*/10 13-22 * * 1-5"  # Every 10 min, Mon–Fri, 9 AM–6 PM EST (GitHub uses UTC)
+    - cron: "*/10 13-22 * * 0-9"
   workflow_dispatch:  # Allow manual run
 
 jobs:
