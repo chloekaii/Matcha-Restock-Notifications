@@ -26,4 +26,4 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
-        run: python your_script.py
+        run: python web_scraper.py
