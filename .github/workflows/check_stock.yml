@@ -23,7 +23,7 @@ jobs:
       # -----------------------------
       # Debug: verify JSON file exists
       # -----------------------------
-      - name: Debug: List repo files
+      - name: "Debug: List repo files"
         run: |
           echo "Current directory: $(pwd)"
           ls -la
