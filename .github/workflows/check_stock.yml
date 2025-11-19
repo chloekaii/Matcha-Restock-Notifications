@@ -1,8 +1,10 @@
 name: Matcha Stock Checker
 
 on:
+  # Run every 10 minutes between 00:00 and 09:59, Monday to Friday
   schedule:
     - cron: "*/10 0-9 * * 1-5"
+  # Allow manual trigger
   workflow_dispatch:
 
 jobs:
