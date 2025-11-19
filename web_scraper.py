@@ -93,14 +93,12 @@ def scrape_products():
 # Email configuration
 # -----------------------------
 
-# Load config
-config_file = Path("config.json")
-with open(config_file, "r") as f:
-    config = json.load(f)
+import os
 
-EMAIL_ADDRESS = config["email_address"]
-EMAIL_PASSWORD = config["email_password"]
-TO_EMAIL = config["to_email"]
+EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+TO_EMAIL = os.environ.get("TO_EMAIL")
+
 
 
 def send_email(subject, body):
