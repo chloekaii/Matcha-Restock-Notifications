@@ -27,3 +27,11 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python web_scraper.py
+
+      - name: Commit updated JSON
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add last_stock.json
+          git commit -m "Update last_stock.json via workflow" || echo "No changes to commit"
+          git push
