@@ -1,10 +1,8 @@
 name: Matcha Stock Checker
 
 on:
-  # Run every 10 minutes between 00:00 and 09:59, Monday to Friday
   schedule:
     - cron: "*/10 0-9 * * 1-5"
-  # Allow manual trigger
   workflow_dispatch:
 
 jobs:
@@ -12,17 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # -----------------------------
-      # Checkout repository
-      # -----------------------------
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false   # important: disable default bot credentials
 
-      # -----------------------------
-      # Debug: verify JSON file exists
-      # -----------------------------
       - name: "Debug: List repo files"
         run: |
           echo "Current directory: $(pwd)"
@@ -30,23 +23,14 @@ jobs:
           echo "Contents of last_stock.json:"
           cat last_stock.json || echo "File not found"
 
-      # -----------------------------
-      # Setup Python
-      # -----------------------------
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      # -----------------------------
-      # Install dependencies
-      # -----------------------------
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # -----------------------------
-      # Run stock checker
-      # -----------------------------
       - name: Run stock checker
         env:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
@@ -56,9 +40,6 @@ jobs:
           cd $GITHUB_WORKSPACE
           python web_scraper.py
 
-      # -----------------------------
-      # Commit updated JSON using PAT
-      # -----------------------------
       - name: Commit updated JSON
         env:
           GITHUB_PAT: ${{ secrets.PAT_TOKEN }}
@@ -69,6 +50,6 @@ jobs:
           git add last_stock.json
           git diff --cached --quiet || git commit -m "Update last_stock.json via workflow"
           
-          # Use PAT for push via HTTPS
+          # Force remote URL with PAT (this is key)
           git remote set-url origin https://x-access-token:$GITHUB_PAT@github.com/chloekaii/Matcha-Restock-Notifications.git
           git push origin HEAD:main
